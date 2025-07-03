@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <form action="/join-club" method="post">
+      <label for="inviteCode">Invite code</label>
+      <input type="password" name="inviteCode" id="inviteCode" />
+      <button type="submit">Submit</button>
+    </form>
+    <% if (locals.errors) { %> <% errors.map( err => { %>
+    <p style="color: red"><%= err.msg %></p>
+    <% }) %> <% } %>
+  </body>
+</html>
