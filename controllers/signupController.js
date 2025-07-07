@@ -36,9 +36,7 @@ const validateUser = [
 ];
 
 const getSignupView = (req, res) => {
-  res.render('signup', {
-    title: 'Sign-up',
-  });
+  res.render('signup');
 };
 
 const postSignup = [
@@ -49,7 +47,6 @@ const postSignup = [
 
     if (errors.length !== 0) {
       res.render('signup', {
-        title: 'Sign-up',
         errors,
         ...req.body
       });

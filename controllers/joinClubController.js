@@ -3,14 +3,14 @@ import { body, validationResult } from 'express-validator';
 
 const validateJoinClub = [
   body('inviteCode')
+    .trim()
     .custom(value => value === process.env.INVITE_CODE)
-    .withMessage('Wrong invite code'),
+    .withMessage('Wrong invite code')
+    .escape(),
 ];
 
 const getJoinClubView = (req, res) => {
-  res.render('joinClub', {
-    title: 'Join The Club',
-  });
+  res.render('joinClub');
 };
 
 const postJoinClub = [
@@ -20,7 +20,6 @@ const postJoinClub = [
 
     if (errors.length !== 0) {
       res.render('joinClub', {
-        title: 'Join The Club',
         errors,
       });
     }
