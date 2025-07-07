@@ -19,9 +19,11 @@
       <button type="button"><a href="/sign-up">Sign up</a></button>
     </div>
     <% } %>
-    <article>
-      <h2>You not member yet</h2>
-      <button type="button"><a href="/join-club">Join The Club!</a></button>
-    </article>
+    <% if (locals.user && locals.user.status === 'guest') { %>
+      <article>
+        <h2>You not member yet</h2>
+        <button type="button"><a href="/join-club">Join The Club!</a></button>
+      </article>
+    <% } %>
   </body>
 </html>

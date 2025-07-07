@@ -15,7 +15,7 @@ const getJoinClubView = (req, res) => {
 
 const postJoinClub = [
   validateJoinClub,
-  async (req, res) => {
+  async (req, res, next) => {
     const errors = validationResult(req).errors;
 
     if (errors.length !== 0) {
@@ -24,7 +24,12 @@ const postJoinClub = [
       });
     }
 
-    await changeUserStatus(id, 'member');
+    try {
+      await changeUserStatus(req.user.id, 'member');
+      res.redirect('/')
+    } catch (err) {
+      next(err)
+    }
   },
 ];
 
