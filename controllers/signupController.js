@@ -1,4 +1,4 @@
-import { createUser } from '../db/queries.js';
+import { createUser, getUserByUsername } from '../db/queries.js';
 import { body, validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 
@@ -48,18 +48,26 @@ const postSignup = [
     if (errors.length !== 0) {
       res.render('signup', {
         errors,
-        ...req.body
+        ...req.body,
       });
 
       return;
     }
 
     try {
+      const isExisting = await getUserByUsername(username);
+
+      if (isExisting)
+        return res.render('signup', {
+          errors: [{ msg: 'Email has been used' }],
+          ...req.body,
+        });
+
       const hashedPassword = await bcrypt.hash(password, 10);
-     
+
       await createUser(firstName, lastName, username, hashedPassword, 'guest');
-    
-      res.redirect('/')
+
+      res.redirect('/');
     } catch (err) {
       next(err);
     }
