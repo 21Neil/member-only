@@ -10,7 +10,8 @@ const SQL = `
     last_name VARCHAR(50),
     username VARCHAR(50),
     password VARCHAR(100),
-    status VARCHAR(50)
+    status VARCHAR(50),
+    admin BOOLEAN
   );
   CREATE TABLE IF NOT EXISTS messages (
     id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,

@@ -1,11 +1,9 @@
-import { changeUserStatus } from '../db/queries.js';
+import { changeUserAdmin, changeUserStatus } from '../db/queries.js';
 import { body, validationResult } from 'express-validator';
 
 const validateJoinClub = [
   body('inviteCode')
     .trim()
-    .custom(value => value === process.env.INVITE_CODE)
-    .withMessage('Wrong invite code')
     .escape(),
 ];
 
@@ -17,18 +15,40 @@ const postJoinClub = [
   validateJoinClub,
   async (req, res, next) => {
     const errors = validationResult(req).errors;
+    const { inviteCode } = req.body;
+
+    if (!req.user) {
+      return res.redirect('/login')
+    }
+
+    const { id } = req.user;
 
     if (errors.length !== 0) {
-      res.render('joinClub', {
+      return res.render('joinClub', {
         errors,
       });
     }
 
-    try {
-      await changeUserStatus(req.user.id, 'member');
-      res.redirect('/')
-    } catch (err) {
-      next(err)
+
+    if (inviteCode === process.env.INVITE_CODE) {
+      try {
+        await changeUserStatus(id, 'member');
+        res.redirect('/');
+      } catch (err) {
+        next(err);
+      }
+    } else if (inviteCode === process.env.ADMIN_CODE) {
+      try {
+        await changeUserStatus(id, 'member');
+        await changeUserAdmin(id);
+        res.redirect('/');
+      } catch (err) {
+        next(err);
+      }
+    } else {
+      res.render('joinClub', {
+        errors: [{ msg: 'Wrong invite code' }],
+      });
     }
   },
 ];

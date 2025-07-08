@@ -1,4 +1,4 @@
-import { createMessage } from '../db/queries.js';
+import { createMessage, deleteMessage } from '../db/queries.js';
 import { body, validationResult } from 'express-validator';
 
 const validateMessage = [
@@ -16,7 +16,7 @@ const postNewMessage = [
     const { title, text } = req.body;
     const time = new Date();
     const errors = validationResult(req).errors;
-    
+
     if (!req.user) {
       res.redirect('/login');
     }
@@ -36,4 +36,16 @@ const postNewMessage = [
   },
 ];
 
-export { getMessageView, postNewMessage };
+const getDeleteMessage = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    await deleteMessage(id);
+
+    return res.redirect('/');
+  } catch (err) {
+    next(err);
+  }
+};
+
+export { getMessageView, postNewMessage, getDeleteMessage };

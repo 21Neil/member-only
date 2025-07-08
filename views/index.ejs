@@ -15,19 +15,19 @@
     </div>
     <% } else { %>
     <div>
-      <button type="button"><a href="/login">Login</a></button>
-      <button type="button"><a href="/sign-up">Sign up</a></button>
+      <a href="/login"><button type="button">Login</button></a>
+      <a href="/sign-up"><button type="button">Sign up</button></a>
     </div>
     <% } %> <% if (locals.user && locals.user.status === 'guest') { %>
     <article>
       <h2>You not member yet</h2>
-      <button type="button"><a href="/join-club">Join The Club!</a></button>
+      <a href="/join-club"><button type="button">Join The Club!</button></a>
     </article>
-    <% } %> <% if (locals.user && locals.user.status === 'member') { %>
-    <button type="button"><a href="/message">New message</a></button>
+    <% } %> <% if (locals.user) { %>
+    <a href="/message"><button type="button">New message</button></a>
     <% } %>
     <section>
-      <% if (locals.messages && locals.user) { %> <% messages.map(msg => { %>
+      <% if (locals.messages) { %> <% messages.map(msg => { %>
       <article>
         <h3><%= msg.title %></h3>
         <% if (locals.user && locals.user.status === 'member') { %>
@@ -36,6 +36,11 @@
         </p>
         <% } %>
         <p><%= msg.text %></p>
+        <% if (locals.user && user.admin) { %>
+        <a href="/message/delete/<%= msg.id %>">
+          <button type="button">Delete</button>
+        </a>
+        <% } %>
       </article>
       <% }) %> <% } %>
     </section>
