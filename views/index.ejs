@@ -18,12 +18,26 @@
       <button type="button"><a href="/login">Login</a></button>
       <button type="button"><a href="/sign-up">Sign up</a></button>
     </div>
+    <% } %> <% if (locals.user && locals.user.status === 'guest') { %>
+    <article>
+      <h2>You not member yet</h2>
+      <button type="button"><a href="/join-club">Join The Club!</a></button>
+    </article>
+    <% } %> <% if (locals.user && locals.user.status === 'member') { %>
+    <button type="button"><a href="/message">New message</a></button>
     <% } %>
-    <% if (locals.user && locals.user.status === 'guest') { %>
+    <section>
+      <% if (locals.messages && locals.user) { %> <% messages.map(msg => { %>
       <article>
-        <h2>You not member yet</h2>
-        <button type="button"><a href="/join-club">Join The Club!</a></button>
+        <h3><%= msg.title %></h3>
+        <% if (locals.user && locals.user.status === 'member') { %>
+        <p style="font-size: 0.8em">
+          <%= msg.username %> <%= msg.time.toLocaleString() %>
+        </p>
+        <% } %>
+        <p><%= msg.text %></p>
       </article>
-    <% } %>
+      <% }) %> <% } %>
+    </section>
   </body>
 </html>

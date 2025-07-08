@@ -3,7 +3,7 @@ import 'dotenv/config';
 
 const SQL = `
   DROP TABLE IF EXISTS users;
-  DROP TABLE IF EXISTS message;
+  DROP TABLE IF EXISTS messages;
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     first_name VARCHAR(50),
@@ -15,8 +15,9 @@ const SQL = `
   CREATE TABLE IF NOT EXISTS messages (
     id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     title VARCHAR(50),
-    time timestamp,
-    text VARCHAR(255)
+    time TIMESTAMP,
+    text VARCHAR(255),
+    author_id INTEGER REFERENCES users(id)
   );
 `;
 

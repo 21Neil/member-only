@@ -7,6 +7,7 @@ import session from 'express-session';
 import passport from 'passport';
 import './config/passport.js';
 import logoutRouter from './routes/logoutRouter.js';
+import messageRouter from './routes/messageRouter.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,6 +30,7 @@ app.use('/sign-up', signupRouter);
 app.use('/join-club', joinClubRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
+app.use('/message', messageRouter)
 
 app.use((err, req, res, next) => {
   console.error(err);
