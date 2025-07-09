@@ -35,7 +35,7 @@
           <%= msg.username %> <%= msg.time.toLocaleString() %>
         </p>
         <% } %>
-        <p><%= msg.text %></p>
+        <p><%- msg.text %></p>
         <% if (locals.user && user.admin) { %>
         <a href="/message/delete/<%= msg.id %>">
           <button type="button">Delete</button>
